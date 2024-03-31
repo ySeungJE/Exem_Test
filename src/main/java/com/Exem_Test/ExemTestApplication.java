@@ -12,7 +12,6 @@ import java.net.Socket;
 
 @SpringBootApplication
 public class ExemTestApplication {
-
 	public static void main(String[] args) {
 
 		SpringApplication.run(ExemTestApplication.class, args);

@@ -1,20 +1,26 @@
 package com.Exem_Test;
 
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class Server extends Thread{
+    private int port;
+    public Server(int port) {
+        this.port = port;
+    }
+    public void run() {  // Thread 를 상속하면 run 메서드를 구현해야 한다.
+        System.out.println("thread run.");
+    }
     public static void main(String[] args) throws IOException, ParseException {
         // .json 파일일 경우
         Reader reader = new FileReader("C:\\Users\\test.json");
@@ -30,6 +36,9 @@ public class Server {
                 JSONObject jsonObj = (JSONObject) o;
 
                 System.out.println((String) jsonObj.get("date"));
+                System.out.println((String) jsonObj.get("region"));
+                System.out.println((String) jsonObj.get("code"));
+
             }
         }
 
@@ -39,15 +48,13 @@ public class Server {
         EntityTransaction tx = em.getTransaction(); // 데이터베이스 모든 변경은 트랜잭션 안에서 일어나야함
         tx.begin();
 
-        Alert alert = new Alert();
-        alert.setPhase(3);
-        alert.setArea("중구");
-        alert.setDateTime("2024-12-10");
 
-        Alert alert2 = new Alert();
-        alert2.setPhase(3);
-        alert2.setArea("중구");
-        alert2.setDateTime("2024-12-10");
+        Alert alert = Alert.builder()
+                .phase(5)
+                .area("중구").dateTime("2024-12-11").build();
+        Alert alert2 = Alert.builder()
+                .phase(5)
+                .area("중구").dateTime("2024-12-11").build();
 
         em.persist(alert); // 저장!
         em.persist(alert2); // 저장!
@@ -58,15 +65,22 @@ public class Server {
         try {
             // 서버 소켓 생성 (포트 번호 12345 사용)
             ServerSocket serverSocket = new ServerSocket(12500);
+            ServerSocket serverSocket2 = new ServerSocket(12501);
             System.out.println("서버가 시작되었습니다.");
 
             // 클라이언트의 연결을 기다림
             Socket clientSocket = serverSocket.accept();
             System.out.println("클라이언트가 연결되었습니다.");
 
+            Socket clientSocket2 = serverSocket2.accept();
+            System.out.println("클라이언트가 연결되었습니다.");
+
             // 클라이언트와 통신하기 위한 입출력 스트림 생성
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+            BufferedReader in2 = new BufferedReader(new InputStreamReader(clientSocket2.getInputStream()));
+            PrintWriter out2 = new PrintWriter(clientSocket2.getOutputStream(), true);
 
             // 클라이언트로부터 메시지 수신 및 출력
             String message;
@@ -75,9 +89,17 @@ public class Server {
                 out.println("서버: " + message); // 클라이언트에게 다시 전송
             }
 
-            // 연결 종료
+            String message2;
+            while ((message = in2.readLine()) != null) {
+                System.out.println("클라이언트: " + message);
+                out2.println("서버: " + message); // 클라이언트에게 다시 전송
+            }
+
+                // 연결 종료
             clientSocket.close();
             serverSocket.close();
+            clientSocket2.close();
+            serverSocket2.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

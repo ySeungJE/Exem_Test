@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client { // 서버를 구역별로 다 켜놓고 클라이언트가 켜지면 JSON 파일 읽어서 각 구역을 담당하는 서버로
+public class Client2 { // 서버를 구역별로 다 켜놓고 클라이언트가 켜지면 JSON 파일 읽어서 각 구역을 담당하는 서버로
     public static void main(String[] args) {
         try {
             // 서버에 연결
-            Socket socket = new Socket("localhost", 12001);
+            Socket socket = new Socket("localhost", 12002);
 
             // 클라이언트와 통신하기 위한 입출력 스트림 생성
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
