@@ -1,17 +1,14 @@
 package com.Exem_Test;
 
-//import jakarta.validation.constraints.NotEmpty;
 import jakarta.persistence.*;
 import lombok.*;
-
-//import javax.persistence.*;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor @Builder
 @ToString
-public class Alert {
+public class Alert { // JPA Entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "alert_id")
@@ -20,4 +17,5 @@ public class Alert {
     private String time;
     private String region;
     private int grade;
+    private String degree;
 }
