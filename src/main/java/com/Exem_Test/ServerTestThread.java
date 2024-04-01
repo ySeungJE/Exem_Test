@@ -14,16 +14,20 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static com.Exem_Test.Main.*;
+
 public class ServerTestThread extends Thread{
+    private final String region;
     private final int port;
-    public ServerTestThread(int port) {
-        this.port = port;
+    public ServerTestThread(String region) {
+        this.region = region;
+        this.port =  regionPortMapping.get(region);
     }
     public void run() {  // Thread 를 상속하면 run 메서드를 구현해야 한다.
         try {
             // 서버 소켓 생성 (포트 번호 12345 사용)
-            ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println(port + "번 port가 열렸습니다.");
+            ServerSocket serverSocket = new ServerSocket(regionPortMapping.get(region));
+            System.out.println(region + "의 port가 열렸습니다 || port:12001");
 
             // 클라이언트의 연결을 기다림
             Socket clientSocket = serverSocket.accept();

@@ -10,13 +10,14 @@ import lombok.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor @Builder
+@ToString
 public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "alert_id")
     private Long id;
-    private String dateTime;
-    private String area;
-    private int phase;
-
+    private String date;
+    private String time;
+    private String region;
+    private int grade;
 }

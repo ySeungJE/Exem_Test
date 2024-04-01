@@ -39,6 +39,8 @@ public class Server extends Thread{
                 System.out.println((String) jsonObj.get("region"));
                 System.out.println((String) jsonObj.get("code"));
 
+
+
             }
         }
 
@@ -49,18 +51,18 @@ public class Server extends Thread{
         tx.begin();
 
 
-        Alert alert = Alert.builder()
-                .phase(5)
-                .area("중구").dateTime("2024-12-11").build();
-        Alert alert2 = Alert.builder()
-                .phase(5)
-                .area("중구").dateTime("2024-12-11").build();
-
-        em.persist(alert); // 저장!
-        em.persist(alert2); // 저장!
-        tx.commit(); // 커밋안하면 반영이 안된다
-        em.close();
-        emf.close();
+//        Alert alert = Alert.builder()
+//                .grade(5)
+//                .area("중구").date("2024-12-11").time("5").build();
+//        Alert alert2 = Alert.builder()
+//                .grade(5)
+//                .area("중구").date("2024-12-11").time("5").build();
+//
+//        em.persist(alert); // 저장!
+//        em.persist(alert2); // 저장!
+//        tx.commit(); // 커밋안하면 반영이 안된다
+//        em.close();
+//        emf.close();
 
         try {
             // 서버 소켓 생성 (포트 번호 12345 사용)
